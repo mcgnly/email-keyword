@@ -1,6 +1,7 @@
 function addEmail(email, keyword) {
 	console.log('adding email', email, 'with keyword', keyword);
 
+// keywords plural is the name of the collection, keyword singular is the parameter given by the user
 	existingKeyword = keywords.findOne({
 		keyword: keyword
 	});

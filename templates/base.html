@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="static/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="static/css/my-css.css" rel="stylesheet" media="screen">
+    <script src="static/js/jquery.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFP Alert</title>
+  </head>
+
+
+
+  <body>
+
+    <div class="container">
+
+      <!-- child template -->
+      {% block content %}
+
+      {% endblock %}
+
+      <!-- errors -->
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}</p>
+      {% endif %}
+
+      <!-- messages -->
+      {% for message in get_flashed_messages() %}
+        {{ message }}
+      {% endfor %}
+    </div>
+
+  </body>
+</html>
