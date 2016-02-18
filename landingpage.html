@@ -1,79 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <link href="static/css/bootstrap.css" rel="stylesheet" media="screen">
+
+<head>
+    <!--  <link href="static/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="static/css/my-css.css" rel="stylesheet" media="screen">
     <script src="static/js/jquery.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AFP Alert</title>
-  </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>Keyword Alert</title>
+</head>
 
-
-
-  <body>
-
+<body>
     <div class="container">
+        <br>
+        <br>
+        <div class="text-center">
+            <div class="jumbotron">
+                <div class="container">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <h1 class="stroke">Keyword Alert</h1>
+                    <header class="email-input">
+                        <h3>Enter your email here:</h3>
+                        <!-- email input box -->
+                        <form class = "new-email">
+                            <input type="text" name ="email" placeholder="email@something.com">
+                            <input type="text" name ="keyword" placeholder="your city">
+                            <input type="submit" value = "Submit">
+                        </form>
 
-<br>
-<br>
+                </header>
+            </div>
+{{myCity "awesome"}}            
+            <div class="underjumbo">
+                <p>this is where I display things from the collection, so I can be sure it works</p>
+                <br>
+                <ul>
+                    {{#each allKeywords}} 
 
-<div  class="text-center">
-    <div class="jumbotron">
-        <div class="container">
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <h1 class = "stroke">AFP Alert</h1>
+                      {{> keywordtemplate}} 
 
-
-<div class = "email-input">
-  <h3>Enter your email here:</h3>
-      <!-- email input box -->
-    <form>
-      <div class="form-group">
-        <textarea class="form-control status-box" rows="1" placeholder="name@something.com"></textarea>
-      </div>
-    </form>
-
-      <!-- button to append the name and score to the list -->
-    <div class="button-group">
-      <a href="#" class="btn btn-primary">save</a>
+                    {{/each}}
+                </ul>
+                <br>
+                <!-- <p><a href="/wtf">What is this all about??</a></p> -->
+            </div>
+            <!-- end of centered text, body container, body-->
+        </div>
     </div>
-</div>
-<br>
-<div class="city-input">
-  <!-- <p>Pick your city here:</p> -->
-  <div class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    Pick your city here:
-    <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <li><a href="#">city 1</a></li>
-    <li><a href="#">city 2</a></li>
-    <li><a href="#">city 3</a></li>
-    </ul>
-  </div>
+    </div>
+</body>
 
+<template name="keywordtemplate">
+    <li class="{{#if checked}}checked{{/if}}">
+    <input type="checkbox" checked="{{checked}}" class = "toggle-checked"> <!-- what is the {{checked}} part for? -->
+    {{status}}
+        <span class="text">{{email}}, {{createdAt}}, {{keyword}}</span>
+        <button class ="delete">Remove Entry </button>
+        {{> UI.contentBlock}}    
+    </li>
+</template>
 
-
-  <!-- <p>Add your city to the list here:</p> -->
-
-</div>
-
-
-
-        </div>
-      </div>
-<div>
-    <br>
-    <p><a href="/wtf">What is this all about??</a></p>
-</div>
-
-</div>
-        </div>
-      </body>
-  </html>
+<template name="bisquit">
+    BISQUIT
+    {{> UI.contentBlock}}
+    BISQUIT
+</template>
