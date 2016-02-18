@@ -72,11 +72,22 @@ if (Meteor.isServer) {
 
 	Meteor.methods({
 		'addKeyword': function (email, keyword) {
-			KeywordCollection.insert({
-				email: email,
-				createdAt: new Date(),
+			//returns true if the keyword given in the form matches something in the collection
+			existingKeyword = KeywordCollection.findOne({
 				keyword: keyword
-			})
+			});
+			//if it DOES exist already...
+			if (existingKeyword){
+
+			}
+			//if it doesn't...
+			else {
+				KeywordCollection.insert({
+					email: [email],
+					//createdAt: new Date(),
+					keyword: keyword
+				})
+			}
 		}, //again, items in an object, hence the ,
 		'changeChecked': function (serverChecked, id) {
 			//update the thing in the collection whose id you got passed to you in the fn call, and an OBJECT hence{}
