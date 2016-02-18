@@ -32,19 +32,17 @@
 
                 </header>
             </div>
-{{myCity "awesome"}}            
+
+         
             <div class="underjumbo">
                 <p>this is where I display things from the collection, so I can be sure it works</p>
                 <br>
                 <ul>
-                    {{#each allKeywords}} 
-
-                      {{> keywordtemplate}} 
-
+                    {{#each allKeywords}} <!-- for each of the allKeywords list -->
+                      {{> keywordTemplate}} <!-- put the contents in the template format -->
                     {{/each}}
                 </ul>
                 <br>
-                <!-- <p><a href="/wtf">What is this all about??</a></p> -->
             </div>
             <!-- end of centered text, body container, body-->
         </div>
@@ -52,18 +50,13 @@
     </div>
 </body>
 
-<template name="keywordtemplate">
-    <li class="{{#if checked}}checked{{/if}}">
-    <input type="checkbox" checked="{{checked}}" class = "toggle-checked"> <!-- what is the {{checked}} part for? -->
-    {{status}}
-        <span class="text">{{email}}, {{createdAt}}, {{keyword}}</span>
-        <button class ="delete">Remove Entry </button>
-        {{> UI.contentBlock}}    
+<template name="keywordTemplate">
+    <li class="{{#if checked}}checked{{/if}}"> <!-- this line is for the strikethrough in the css -->
+    <input type="checkbox" checked="{{checked}}" class = "toggle-checked"> 
+    {{status}} <!-- this calls the template helper method of that name and returns things from it -->
+        <span class="text">{{email}}, {{keyword}}, {{createdAt}} </span> <!-- why does it know to get these from the collection? -->
+        <button class ="delete">Remove Entry </button>  
     </li>
 </template>
 
-<template name="bisquit">
-    BISQUIT
-    {{> UI.contentBlock}}
-    BISQUIT
-</template>
+
