@@ -1,19 +1,3 @@
-// what's the deal with the caps and non-caps?
-KeywordCollection = new Mongo.Collection('keywordCollection');
-
-//disallow the client side from doing anything directly
-KeywordCollection.allow({
-    insert: function(userId, doc){
-        return false;
-    },
-    update: function(userId, doc, fields, modifier) {
-        return false;
-    },
-    remove: function (userId, doc){
-        return false;
-    }
-});
-
 if (Meteor.isClient) {
 
 	console.log('Clients rock, servers suck')
@@ -23,7 +7,6 @@ if (Meteor.isClient) {
 		// keywordobject: [
 		// 	{ keywordtext: "abc"}, 
 		// 	{ keywordtext: "def"}, 
-		// 	{ keywordtext: "ghi"}, 
 		// ]
 		allKeywords: function() {
 			//the fetch is just for appearances here, find would have gotten a cursor and got the job done too
@@ -66,37 +49,3 @@ if (Meteor.isClient) {
 	
 }
 
-if (Meteor.isServer) {
-
-	console.log('Clients suck, servers rock')
-
-	Meteor.methods({
-		'addKeyword': function (email, keyword) {
-			//returns true if the keyword given in the form matches something in the collection
-			existingKeyword = KeywordCollection.findOne({
-				keyword: keyword
-			});
-			//if it DOES exist already...
-			if (existingKeyword){
-				//something happens
-			}
-			//if it doesn't...
-			else {
-				KeywordCollection.insert({
-					email: [email],
-					//createdAt: new Date(),
-					keyword: keyword
-				})
-			}
-		}, //again, items in an object, hence the ,
-		'changeChecked': function (serverChecked, id) {
-			//update the thing in the collection whose id you got passed to you in the fn call, and an OBJECT hence{}
-			KeywordCollection.update(id, {$set: {checked: serverChecked}}) //the $ thing is mongodb not jquery
-		}, 
-		'allowDelete' : function (id){
-			KeywordCollection.remove(id);
-		}
-	});
-	// keys.MAILGUN
-
-}
