@@ -78,7 +78,7 @@ if (Meteor.isServer) {
 			});
 			//if it DOES exist already...
 			if (existingKeyword){
-
+				//something happens
 			}
 			//if it doesn't...
 			else {
@@ -97,6 +97,6 @@ if (Meteor.isServer) {
 			KeywordCollection.remove(id);
 		}
 	});
-
+	// keys.MAILGUN
 
 }
