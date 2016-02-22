@@ -1,4 +1,4 @@
 .meteor/local
 .meteor/meteorite
 api_keys.*
-settings-*
+settings*

@@ -2,6 +2,15 @@ if (Meteor.isServer) {
 
 	console.log('Clients suck, servers rock')
 
+	var Twit = Meteor.npmRequire('twit')
+
+	var T = new Twit({
+	  consumer_key:  Meteor.settingsDevelopment.CONSUMER_KEY,
+	  consumer_secret: Meteor.settingsDevelopment.CONSUMER_SECRET,
+	  access_token_key: Meteor.settingsDevelopment.ACCESS_TOKEN,
+	  access_token_secret: Meteor.settingsDevelopment.ACCESS_TOKEN_SECRET
+	})
+
 	Meteor.methods({
 		'addKeyword': function (email, keyword) {
 			//returns true if the keyword given in the form matches something in the collection
@@ -30,21 +39,16 @@ if (Meteor.isServer) {
 		}
 	});
 
-var Twit = Meteor.npmRequire('twit')
 
-var T = new Twit({
-  consumer_key:  keys.CONSUMER_KEY,
-  consumer_secret: keys.CONSUMER_SECRET,
-  access_token_key: keys.ACCESS_TOKEN,
-  access_token_secret: keys.ACCESS_TOKEN_SECRET
-});
 
-lastTweets = T.get('statuses/user_timeline/tweets', { screen_name: "amandapalmer", 
+Meteor.startup(function () {
+	lastTweets = T.get('statuses/user_timeline/tweets', { screen_name: "amandapalmer", 
 													  since_id: 701556146952220672,
                                                       exclude_replies: "true", 
                                                       include_rts: "false"}, 
               function (err, data, response) {console.log(data)});
 
 
-}
+});
 
+}
