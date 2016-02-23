@@ -2,14 +2,19 @@ if (Meteor.isServer) {
 
 	console.log('Clients suck, servers rock')
 
+	var consumer_key=  Meteor.settings.CONSUMER_KEY;
+	var consumer_secret= Meteor.settings.CONSUMER_SECRET; 
+	var access_token= Meteor.settings.ACCESS_TOKEN; 
+	var access_token_secret= Meteor.settings.ACCESS_TOKEN_SECRET;
+	
 	var Twit = Meteor.npmRequire('twit')
 
 	var T = new Twit({
-	  consumer_key:  Meteor.settingsDevelopment.CONSUMER_KEY,
-	  consumer_secret: Meteor.settingsDevelopment.CONSUMER_SECRET,
-	  access_token_key: Meteor.settingsDevelopment.ACCESS_TOKEN,
-	  access_token_secret: Meteor.settingsDevelopment.ACCESS_TOKEN_SECRET
-	})
+		consumer_key,
+		consumer_secret,
+		access_token,
+		access_token_secret,
+	});
 
 	Meteor.methods({
 		'addKeyword': function (email, keyword) {
