@@ -11,7 +11,10 @@ if (Meteor.isClient) {
 		allKeywords: function() {
 			//the fetch is just for appearances here, find would have gotten a cursor and got the job done too
 			return KeywordCollection.find().fetch();
-		}
+			}
+
+		
+		
 	});
 
 	Template.body.events({
@@ -47,5 +50,8 @@ if (Meteor.isClient) {
 		}
 	});
 	
+	// Meteor.call('tweetText', function(err,res){ 
+ //  			console.log(res);
+	// 	});
 }
 
