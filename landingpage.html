@@ -54,7 +54,7 @@
     <li class="{{#if checked}}checked{{/if}}"> <!-- this line is for the strikethrough in the css -->
     <input type="checkbox" checked="{{checked}}" class = "toggle-checked"> 
     {{status}} <!-- this calls the template helper method of that name and returns things from it -->
-        <span class="text">{{email}}, {{keyword}}<!-- , {{createdAt}}  --></span> <!-- why does it know to get these from the collection? -->
+        <span class="text">{{emails}}, {{keyword}}<!-- , {{createdAt}}  --></span> <!-- why does it know to get these from the collection? -->
         <button class ="delete">Remove Entry </button>  
     </li>
 </template>

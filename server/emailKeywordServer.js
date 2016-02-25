@@ -22,16 +22,20 @@ if (Meteor.isServer) {
 			existingKeyword = KeywordCollection.findOne({
 				keyword: keyword
 			});
-			console.log(existingKeyword);//this returns an object which will be true if it exists
+			//this returns an object which will be true if it exists
 			//if it DOES exist already...
 			if (existingKeyword){ //returns true...
+			console.log("this keyword exists already in: "+existingKeyword);
+
 				//check that the new email isn't already in the list of existing emails
-				if( ! _.find(existingKeyword.emails, email)){ 
-					//make an object (or an array??) with the emails already assigned to it, push new email in
-					var existingEmails = existingKeyword.emails.push(email);		
+				if( ! _.find(existingKeyword.emails, function(existingEmail){return existingEmail === email;})) 
+				{ 
+					console.log("unicorns");
+					//make an object (or an array??) with the emails already assigned to it, push new email in		
 					//replace old email list with new one
-					KeywordCollection.update(existingKeyword._id, {$set: {emails: existingEmails}});
+					KeywordCollection.update(existingKeyword._id, {$push: {emails: email}});
 				}
+
 			}
 			//if it doesn't...
 			else {
