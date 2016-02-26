@@ -2,20 +2,15 @@ if (Meteor.isServer) {
 
 	console.log('Clients suck, servers rock')
 
-	// var consumer_key1=  Meteor.settings.CONSUMER_KEY;
-	// var consumer_secret1= Meteor.settings.CONSUMER_SECRET; 
-	// var access_token1= Meteor.settings.ACCESS_TOKEN; 
-	// var access_token_secret1= Meteor.settings.ACCESS_TOKEN_SECRET;
+	var consumer_key1=  Meteor.settings.CONSUMER_KEY;
+	var consumer_secret1= Meteor.settings.CONSUMER_SECRET; 
+	var access_token1= Meteor.settings.ACCESS_TOKEN; 
+	var access_token_secret1= Meteor.settings.ACCESS_TOKEN_SECRET;
 	var mailgun_key = Meteor.settings.MAILGUN_KEY;
 
-	// var Twit = Meteor.npmRequire('twit');
+	var Twit = Meteor.npmRequire('twit');
 
-	// var T = new Twit({
-	// 	consumer_key: consumer_key1,
-	// 	consumer_secret: consumer_secret1,
-	// 	access_token: access_token1,
-	// 	access_token_secret: access_token_secret1
-	// });
+	
 
 	Meteor.methods({
 		'addKeyword': function (email, keyword) {
@@ -79,17 +74,23 @@ if (Meteor.isServer) {
 			});
 			console.log("email sent")
 
-		}
+		},
 
-		  // The method expects a valid IPv4 address
-	  	// 'tweetText': function () {
-	   //  	//console.log('Method.geoJsonForIp for', ip);
-	   //  	// Construct the API URL and query the API
-	   //  	lastTweets = T.get('statuses/user_timeline/tweets', {screen_name:'amandapalmer', since_id: 702331206575099904}, 
-	   //  		function (err, data, response) {console.log(data)});
-	   //  	// 
-	   //  	// return lastTweets;
-	  	// }
+	  	'tweetText': function () {
+	  		var T = new Twit({
+					consumer_key: consumer_key1,
+					consumer_secret: consumer_secret1,
+					access_token: access_token1,
+					access_token_secret: access_token_secret1
+				});
+	    	console.log('unicorns');
+	    	// Construct the API URL and query the API
+	    	lastTweets = T.get('statuses/user_timeline/tweets', 
+	    		{screen_name:'amandapalmer',
+	    		since_id: 702331206575099904}, 
+	    		function (err, data, response) {console.log(data)});
+	    	return lastTweets;
+	  	}
 
 	});
 
