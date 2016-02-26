@@ -6,6 +6,7 @@ if (Meteor.isServer) {
 	// var consumer_secret1= Meteor.settings.CONSUMER_SECRET; 
 	// var access_token1= Meteor.settings.ACCESS_TOKEN; 
 	// var access_token_secret1= Meteor.settings.ACCESS_TOKEN_SECRET;
+	var mailgun_key = Meteor.settings.MAILGUN_KEY;
 
 	// var Twit = Meteor.npmRequire('twit');
 
@@ -55,7 +56,30 @@ if (Meteor.isServer) {
 
 		'allowDelete' : function (id){
 			KeywordCollection.remove(id);
-		}//,
+		},
+
+		'foaas' : function(to, from){
+			var apiUrl = "http://www.foaas.com/donut/"+to +"/"+from;
+			var options = {
+        		headers: {'Accept': 'application/json'}
+      		}
+			//console.log(options);
+    		// query the API
+    		var response = HTTP.get(apiUrl, options)
+    		return response;	
+		},
+
+
+		'sendEmail' : function(email){
+			Email.send({
+				to:email, 
+				from:'acemtp@gmail.com', 
+				subject:'Testing testing', 
+				text:'did it work?'
+			});
+			console.log("email sent")
+
+		}
 
 		  // The method expects a valid IPv4 address
 	  	// 'tweetText': function () {
@@ -72,6 +96,9 @@ if (Meteor.isServer) {
 
 
  Meteor.startup(function () {
+ 	// process.env.MAIL_URL = 'https://api.mailgun.net/v3/sandbox4c0b30d5574541faaec2a8613c4f641e.mailgun.org'
+
+
 // 	lastTweets = T.get('statuses/user_timeline/tweets', { screen_name: "amandapalmer", 
 // 													  since_id: 701556146952220672,
 //                                                       exclude_replies: "true", 

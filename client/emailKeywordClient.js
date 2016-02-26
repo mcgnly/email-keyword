@@ -12,7 +12,8 @@ if (Meteor.isClient) {
 		allKeywords: function() {
 			//the fetch is just for appearances here, find would have gotten a cursor and got the job done too
 			return KeywordCollection.find().fetch();
-		}
+		} 
+
 	});
 
 	Template.body.events({
@@ -25,7 +26,21 @@ if (Meteor.isClient) {
 			event.target.email.value = "";
 			event.target.keyword.value = "";
 			return false;
-		}
+		},
+		'click .FOAAS': function(event){
+			Meteor.call('foaas', "Kite", "Katie", function(error, result) {
+		        if (error) {
+		          console.log('SERVER ERRR');
+		          console.log(error);
+		        } else
+		        	var res = String(result.data.message);
+		          	console.log(res);
+		           
+		      }), 
+			Meteor.call('sendEmail', 'katherine.mcginley@gmail.com');
+		} 
+		
+		
 	});
 
 	Template.keywordTemplate.helpers({
