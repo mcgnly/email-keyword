@@ -26,6 +26,7 @@ if (Meteor.isClient) {
 			event.target.keyword.value = "";
 			return false;
 		},
+		
 		'click .FOAAS': function(event){
 			Meteor.call('foaas', "Kite", "Katie", function(error, result) {
 		        if (error) {
@@ -37,8 +38,9 @@ if (Meteor.isClient) {
 		           
 		      }), 
 			Meteor.call('sendEmail', 'katherine.mcginley@gmail.com');
-			}
-			'click .twitterChecker': function(event){
+		},
+
+		'click .twitterChecker': function(event){
 			Meteor.call('twitterChecker', function(error, result) {
 		        if (error) {
 		          console.log('SERVER ERRR');
@@ -47,7 +49,7 @@ if (Meteor.isClient) {
 		          	console.log(result);}
 		           
 		      });
-	 }
+	 	}
 
 
 		
