@@ -53,16 +53,16 @@ if (Meteor.isServer) {
 			KeywordCollection.remove(id);
 		},
 
-		'foaas' : function(to, from){
-			var apiUrl = "http://www.foaas.com/donut/"+to +"/"+from;
-			var options = {
-        		headers: {'Accept': 'application/json'}
-      		}
-			//console.log(options);
-    		// query the API
-    		var response = HTTP.get(apiUrl, options)
-    		return response;	
-		},
+		// 'foaas' : function(to, from){
+		// 	var apiUrl = "http://www.foaas.com/donut/"+to +"/"+from;
+		// 	var options = {
+  //       		headers: {'Accept': 'application/json'}
+  //     		}
+		// 	//console.log(options);
+  //   		// query the API
+  //   		var response = HTTP.get(apiUrl, options)
+  //   		return response;	
+		// },
 
 
 		'sendEmail' : function(email){
@@ -76,36 +76,60 @@ if (Meteor.isServer) {
 
 		},
 
-	  	'tweetText': function () {
-	  		var T = new Twit({
-					consumer_key: consumer_key1,
-					consumer_secret: consumer_secret1,
-					access_token: access_token1,
-					access_token_secret: access_token_secret1
-				});
-	    	console.log('unicorns');
-	    	// Construct the API URL and query the API
-	    	lastTweets = T.get('statuses/user_timeline/tweets', 
-	    		{screen_name:'amandapalmer',
-	    		since_id: 702331206575099904}, 
-	    		function (err, data, response) {console.log(data)});
-	    	return lastTweets;
-	  	}
+	  	// 'tweetText': function () {
+	  	// 	var T = new Twit({
+				// 	consumer_key: consumer_key1,
+				// 	consumer_secret: consumer_secret1,
+				// 	access_token: access_token1,
+				// 	access_token_secret: access_token_secret1
+				// });
+	   //  	console.log('unicorns');
+	   //  	// Construct the API URL and query the API
+	   //  	lastTweets = T.get('statuses/user_timeline/tweets', 
+	   //  		{screen_name:'amandapalmer',
+	   //  		since_id: 702331206575099904}, 
+	   //  		function (err, data, response) {console.log(data)});
+	   //  	return lastTweets;
+	  	// },
+
+	  	'foaas' : function(to, from){
+			var apiUrl = "http://www.foaas.com/donut/"+to +"/"+from;
+			var options = {
+        		headers: {'Accept': 'application/json'}
+      		}
+			//console.log(options);
+    		// query the API
+    		var response = HTTP.get(apiUrl, options)
+    		return response;	
+		},
+
+ 	'twitterChecker': function(){
+
+ 	 	// var T = new Twit({
+				// 	consumer_key: consumer_key1,
+				// 	consumer_secret: consumer_secret1,
+				// 	access_token: access_token1,
+				// 	access_token_secret: access_token_secret1
+				// });
+	   //  	// console.log('unicorns');
+	   //  	// Construct the API URL and query the API
+	   //  lastTweets = T.get('statuses/user_timeline', 
+	   //  		{screen_name:'amandapalmer',
+	   //  		since_id: 703071471149543424, 
+	   //  		include_rts : false,
+	   //  		trim_user : true}, 
+	   //  		function (err, data, response) {
+	   //  			return(data)});
+	return ("pretend this is a tweet")
+	    }
 
 	});
 
 
-
  Meteor.startup(function () {
- 	// process.env.MAIL_URL = 'https://api.mailgun.net/v3/sandbox4c0b30d5574541faaec2a8613c4f641e.mailgun.org'
 
-
-// 	lastTweets = T.get('statuses/user_timeline/tweets', { screen_name: "amandapalmer", 
-// 													  since_id: 701556146952220672,
-//                                                       exclude_replies: "true", 
-//                                                       include_rts: "false"}, 
-//               function (err, data, response) {console.log(data)});
-
+ 	
+	    	
 
 });
 

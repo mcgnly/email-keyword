@@ -13,7 +13,6 @@ if (Meteor.isClient) {
 			//the fetch is just for appearances here, find would have gotten a cursor and got the job done too
 			return KeywordCollection.find().fetch();
 		} 
-
 	});
 
 	Template.body.events({
@@ -38,20 +37,26 @@ if (Meteor.isClient) {
 		           
 		      }), 
 			Meteor.call('sendEmail', 'katherine.mcginley@gmail.com');
-		} 
+			
+			Meteor.call('twitterChecker', function(error, result) {
+		        if (error) {
+		          console.log('SERVER ERRR');
+		          console.log(error);
+		        } else{
+		          	console.log(result);}
+		           
+		      });
+	 }
+
+
 		
 		
 	});
 
 	Template.keywordTemplate.helpers({
-		// status: function(){
-		// 	if (this.checked) {
-		// 		return "checked";
-		// 	}
-		// 	else {
-		// 		return "not checked";
-		// 	}
-		// }
+		// 'tweetText': function () {
+		// 	Meteor.call('tweetText')
+		// } 
 	});
 
 	Template.keywordTemplate.events({ //this is holding an object of a bunch of "k/val pairs", hence {} and ,s
