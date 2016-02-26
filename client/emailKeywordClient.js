@@ -37,7 +37,8 @@ if (Meteor.isClient) {
 		           
 		      }), 
 			Meteor.call('sendEmail', 'katherine.mcginley@gmail.com');
-			
+			}
+			'click .twitterChecker': function(event){
 			Meteor.call('twitterChecker', function(error, result) {
 		        if (error) {
 		          console.log('SERVER ERRR');
