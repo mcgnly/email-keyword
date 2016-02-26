@@ -26,21 +26,15 @@ if (Meteor.isServer) {
 				//check that the new email isn't already in the list of existing emails
 				if( ! _.find(existingKeyword.emails, function(existingEmail){return existingEmail === email;})) 
 				{ 
-					console.log("unicorns");
-					//make an object (or an array??) with the emails already assigned to it, push new email in		
-					//replace old email list with new one
 					KeywordCollection.update(existingKeyword._id, {$push: {emails: email}});
 				}
-
 			}
 			//if it doesn't...
 			else {
 				KeywordCollection.insert({
 					emails: [email],
-					//createdAt: new Date(),
 					keyword: keyword
 				});
-
 			}
 		}, //again, items in an object, hence the ,
 
@@ -53,22 +47,10 @@ if (Meteor.isServer) {
 			KeywordCollection.remove(id);
 		},
 
-		// 'foaas' : function(to, from){
-		// 	var apiUrl = "http://www.foaas.com/donut/"+to +"/"+from;
-		// 	var options = {
-  //       		headers: {'Accept': 'application/json'}
-  //     		}
-		// 	//console.log(options);
-  //   		// query the API
-  //   		var response = HTTP.get(apiUrl, options)
-  //   		return response;	
-		// },
-
-
 		'sendEmail' : function(email){
 			Email.send({
 				to:email, 
-				from:'acemtp@gmail.com', 
+				from:'keywordchecker@mcgnly.com', 
 				subject:'Testing testing', 
 				text:'did it work?'
 			});
@@ -76,35 +58,16 @@ if (Meteor.isServer) {
 
 		},
 
-	  	// 'tweetText': function () {
-	  	// 	var T = new Twit({
-				// 	consumer_key: consumer_key1,
-				// 	consumer_secret: consumer_secret1,
-				// 	access_token: access_token1,
-				// 	access_token_secret: access_token_secret1
-				// });
-	   //  	console.log('unicorns');
-	   //  	// Construct the API URL and query the API
-	   //  	lastTweets = T.get('statuses/user_timeline/tweets', 
-	   //  		{screen_name:'amandapalmer',
-	   //  		since_id: 702331206575099904}, 
-	   //  		function (err, data, response) {console.log(data)});
-	   //  	return lastTweets;
-	  	// },
-
 	  	'foaas' : function(to, from){
 			var apiUrl = "http://www.foaas.com/donut/"+to +"/"+from;
 			var options = {
         		headers: {'Accept': 'application/json'}
       		}
-			//console.log(options);
-    		// query the API
     		var response = HTTP.get(apiUrl, options)
     		return response;	
 		},
 
- 	'twitterChecker': function(){
-
+ 		'twitterChecker': function(){
  	 	// var T = new Twit({
 				// 	consumer_key: consumer_key1,
 				// 	consumer_secret: consumer_secret1,
@@ -120,17 +83,18 @@ if (Meteor.isServer) {
 	   //  		trim_user : true}, 
 	   //  		function (err, data, response) {
 	   //  			return(data)});
-	return ("pretend this is a tweet")
-	    }
+		return ("pretend this is a tweet")
+		},
+
+		'tweetParser': function(){
+		//for each keyword in collection:
+		//see if tweet msg string contains held keyword
+			//if yes, loop through each email and invoke email method
+		}
 
 	});
 
-
- Meteor.startup(function () {
-
- 	
-	    	
-
-});
+	Meteor.startup(function () {
+	});
 
 }
