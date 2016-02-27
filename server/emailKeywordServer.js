@@ -10,8 +10,6 @@ if (Meteor.isServer) {
 
 	var Twit = Meteor.npmRequire('twit');
 
-	
-
 	Meteor.methods({
 		'addKeyword': function (email, keyword) {
 			//returns true if the keyword given in the form matches something in the collection
@@ -21,7 +19,7 @@ if (Meteor.isServer) {
 			//this returns an object which will be true if it exists
 			//if it DOES exist already...
 			if (existingKeyword){ //returns true...
-			console.log("this keyword exists already in: "+existingKeyword);
+			//console.log("this keyword exists already in: "+existingKeyword);
 
 				//check that the new email isn't already in the list of existing emails
 				if( ! _.find(existingKeyword.emails, function(existingEmail){return existingEmail === email;})) 
@@ -31,10 +29,14 @@ if (Meteor.isServer) {
 			}
 			//if it doesn't...
 			else {
+				//add an entry in the collection
 				KeywordCollection.insert({
 					emails: [email],
 					keyword: keyword
 				});
+				//push the keyword to the local list
+				localKeywords.push(keyword);
+				console.log(localKeywords);
 			}
 		}, //again, items in an object, hence the ,
 
@@ -83,13 +85,26 @@ if (Meteor.isServer) {
 	   //  		trim_user : true}, 
 	   //  		function (err, data, response) {
 	   //  			return(data)});
-		return ("pretend this is a tweet")
+		var tweet = "pretend this is a tweet about cats"		
+		Meteor.call('tweetParser', tweet)
+		return (tweet)
 		},
 
-		'tweetParser': function(){
-		//for each keyword in collection:
-		//see if tweet msg string contains held keyword
-			//if yes, loop through each email and invoke email method
+		'tweetParser': function(tweet){
+			//console.log("//////////////////////")
+			var splitTweet = tweet.split(" ");
+			console.log(splitTweet);
+
+			for (i=0;i<splitTweet.length;i++){
+					twitterTrigger = KeywordCollection.findOne({
+					keyword: splitTweet[i]
+					});
+				//this returns an object which will be true if it exists
+				//if it DOES exist already...
+				if (twitterTrigger){
+					Meteor.call('sendEmail', _.each(twitterTrigger.emails, function(email){return email}));		
+				}
+			}
 		}
 
 	});
