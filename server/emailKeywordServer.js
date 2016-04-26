@@ -35,8 +35,8 @@ if (Meteor.isServer) {
 					keyword: keyword
 				});
 				//push the keyword to the local list
-				localKeywords.push(keyword);
-				console.log(localKeywords);
+                // localKeywords.push(keyword);
+                // console.log(localKeywords);
 			}
 		}, //again, items in an object, hence the ,
 
