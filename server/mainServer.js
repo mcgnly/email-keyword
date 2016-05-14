@@ -10,6 +10,18 @@ if (Meteor.isServer) {
 
     var Twit = Meteor.npmRequire('twit');
 
+    // var later = require('later');
+
+    // SyncedCron.add({
+    //     name: 'check AFP Twitter',
+    //     schedule: function(parser) {
+    //         // parser is a later.parse object
+    //         return parser.text('every 8 hours');
+    //     },
+    //     job: function() {
+    //         Meteor.call('twitterChecker');
+    //     }
+    // });
     Meteor.methods({
         'addKeyword': function(email, keyword) {
             //returns true if the keyword given in the form matches something in the collection
@@ -57,9 +69,11 @@ if (Meteor.isServer) {
         },
 
         'sendEmail': function(email) {
+            console.log("started sendemail");
+            console.log(email);
             Email.send({
                 to: email,
-                from: 'keywordchecker@mcgnly.com',
+                from: 'mailgun@.mcgnly.com',
                 subject: 'Testing testing',
                 text: 'did it work?'
             });
@@ -79,30 +93,51 @@ if (Meteor.isServer) {
         },
 
         'twitterChecker': function() {
-            // var T = new Twit({
-            // 	consumer_key: consumer_key1,
-            // 	consumer_secret: consumer_secret1,
-            // 	access_token: access_token1,
-            // 	access_token_secret: access_token_secret1
-            // });
-            //  	// console.log('unicorns');
-            //  	// Construct the API URL and query the API
-            //  lastTweets = T.get('statuses/user_timeline', 
-            //  		{screen_name:'amandapalmer',
-            //  		since_id: 703071471149543424, 
-            //  		include_rts : false,
-            //  		trim_user : true}, 
-            //  		function (err, data, response) {
-            //  			return(data)});
-            var tweet = "pretend this is a tweet about cats"
-            Meteor.call('tweetParser', tweet)
-            return (tweet)
+            // console.log(Meteor.settings.CONSUMER_KEY);
+            var T = new Twit({
+                consumer_key: Meteor.settings.CONSUMER_KEY,
+                consumer_secret: consumer_secret1,
+                access_token: access_token1,
+                access_token_secret: access_token_secret1
+            });
+
+            // Construct the API URL and query the API
+            lastTweets = T.get('statuses/user_timeline', {
+                screen_name: 'amandapalmer',
+                since_id: 731248860983611392,
+                trim_user: true,
+                include_entities: false
+            })
+
+            .catch(function(err) {
+                console.log('caught error', err.stack)
+            })
+                .then(Meteor.bindEnvironment(function(result) {
+                    // `result` is an Object with keys "data" and "resp".
+                    // `data` and `resp` are the same objects as the ones passed
+                    // to the callback.
+                    // See https://github.com/ttezel/twit#tgetpath-params-callback
+                    // for details.
+                    for (d in result.data) {
+                        var tweet = result.data[d].text;
+                        console.log(tweet);
+
+                        Meteor.call('tweetParser', tweet)
+                    }
+
+
+                }))
+
+            // var tweet = "pretend this is a tweet about cats"
+            // Meteor.call('tweetParser', tweet)
+            // console.log("got through twitterchecker");
+            // return (tweet)
         },
 
         'tweetParser': function(tweet) {
             //console.log("//////////////////////")
             var splitTweet = tweet.split(" ");
-            console.log(splitTweet);
+            // console.log(splitTweet);
 
             for (i = 0; i < splitTweet.length; i++) {
                 twitterTrigger = KeywordCollection.findOne({
@@ -111,15 +146,17 @@ if (Meteor.isServer) {
                 //this returns an object which will be true if it exists
                 //if it DOES exist already...
                 if (twitterTrigger) {
-                    Meteor.call('sendEmail', _.each(twitterTrigger.emails, function(email) {
-                        return email
-                    }));
+                    console.log("got to twittertrigger");
+                    _.each(twitterTrigger.emails, function(email) {
+                        Meteor.call('sendEmail', email);
+                    });
+
                 }
             }
-        }
 
+        }
     });
 
     Meteor.startup(function() {});
-
+    // SyncedCron.start();
 }
