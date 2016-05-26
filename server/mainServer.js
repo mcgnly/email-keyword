@@ -44,14 +44,6 @@
                 }
             }, //again, items in an object, hence the ,
 
-            'changeChecked': function(serverChecked, id) {
-                //update the thing in the collection whose id you got passed to you in the fn call, and an OBJECT hence{}
-                KeywordCollection.update(id, {
-                    $set: {
-                        checked: serverChecked
-                    }
-                }) //the $ thing is mongodb not jquery
-            },
 
             'allowDelete': function(id) {
                 KeywordCollection.remove(id);
@@ -68,17 +60,6 @@
                 console.log("email sent")
             },
 
-            'foaas': function(to, from) {
-                var apiUrl = "http://www.foaas.com/donut/" + to + "/" + from;
-                var options = {
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }
-                var response = HTTP.get(apiUrl, options)
-                return response;
-            },
-
             'twitterChecker': function() {
                 //console.log("top of fn: " + since_id);
                 var T = new Twit({
@@ -90,7 +71,7 @@
 
                 // Construct the API URL and query the API
                 lastTweets = T.get('statuses/user_timeline', {
-                    screen_name: 'mcgnly',
+                    screen_name: 'amandapalmer',
                     // since_id: 735184012562436096,
                     since_id: (LastTweetsCollection.findOne({}, {
                         sort: {
@@ -151,5 +132,5 @@
         });
 
         Meteor.startup(function() {});
-        // SyncedCron.start();
+
     }

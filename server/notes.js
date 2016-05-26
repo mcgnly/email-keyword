@@ -42,5 +42,25 @@
 // 	addEmail('katie@gmail.com', 'squirrel');
 
 // }
+// 'changeChecked': function(serverChecked, id) {
+//     //update the thing in the collection whose id you got passed to you in the fn call, and an OBJECT hence{}
+//     KeywordCollection.update(id, {
+//         $set: {
+//             checked: serverChecked
+//         }
+//     }) //the $ thing is mongodb not jquery
+// },
+
+
+// 'foaas': function(to, from) {
+//     var apiUrl = "http://www.foaas.com/donut/" + to + "/" + from;
+//     var options = {
+//         headers: {
+//             'Accept': 'application/json'
+//         }
+//     }
+//     var response = HTTP.get(apiUrl, options)
+//     return response;
+// },
 
 // Meteor.startup(testUI)
