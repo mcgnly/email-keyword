@@ -27,20 +27,6 @@ if (Meteor.isClient) {
             return false;
         },
 
-        'click .FOAAS': function(event) {
-            Meteor.call('foaas', "Kite", "Katie", function(error, result) {
-                if (error) {
-                    console.log('SERVER ERRR');
-                    console.log(error);
-                } else {
-                    var res = String(result.data.message);
-                    console.log(res);
-                }
-
-            })
-
-        },
-
         'click .twitterChecker': function(event) {
             Meteor.call('twitterChecker', function(error, result) {
                 if (error) {
@@ -52,9 +38,6 @@ if (Meteor.isClient) {
 
             });
         }
-
-
-
 
     });
 
