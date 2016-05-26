@@ -31,3 +31,4 @@ twbs:bootstrap
 
 standard-minifier-css
 standard-minifier-js
+percolate:synced-cron
