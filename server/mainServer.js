@@ -10,18 +10,8 @@
 
         var Twit = Meteor.npmRequire('twit');
 
-        // var later = require('later');
+        SyncedCron.start();
 
-        // SyncedCron.add({ 
-        //     name: 'check AFP Twitter',
-        //     schedule: function(parser) {
-        //         // parser is a later.parse object
-        //         return parser.text('every 8 hours');
-        //     },
-        //     job: function() {
-        //         Meteor.call('twitterChecker');
-        //     }
-        // });
         Meteor.methods({
             'addKeyword': function(email, keyword) {
                 //returns true if the keyword given in the form matches something in the collection
@@ -68,11 +58,10 @@
             },
 
             'sendEmail': function(email) {
-                console.log("started sendemail");
-                console.log(email);
                 Email.send({
                     to: email,
-                    from: 'mailgun@.mcgnly.com',
+                    sender: 'postmaster@mcgnly.com',
+                    from: 'postmaster@.mcgnly.com',
                     subject: 'Testing testing',
                     text: 'did it work?'
                 });
@@ -91,7 +80,7 @@
             },
 
             'twitterChecker': function() {
-                console.log("top of fn: " + abc.tweetId);
+                //console.log("top of fn: " + since_id);
                 var T = new Twit({
                     consumer_key: Meteor.settings.CONSUMER_KEY,
                     consumer_secret: consumer_secret1,
@@ -101,13 +90,13 @@
 
                 // Construct the API URL and query the API
                 lastTweets = T.get('statuses/user_timeline', {
-                    screen_name: 'amandapalmer',
+                    screen_name: 'mcgnly',
+                    // since_id: 735184012562436096,
                     since_id: (LastTweetsCollection.findOne({}, {
                         sort: {
                             createdAt: -1
                         }
                     }) || {}).tweetId,
-                    // since_id: abc.tweetId,
                     trim_user: true,
                     include_entities: false,
                     include_rts: false
@@ -135,10 +124,6 @@
                                 tweetId: result.data[0].id_str,
                                 createdAt: new Date()
                             })
-                            // KeywordCollection.update(tweetId._id, {
-                            //         $set: {
-                            //             tweetId: result.data[0].id_str;
-                            //         }
                         } else {
                             console.log("nothing new to report");
                         }
