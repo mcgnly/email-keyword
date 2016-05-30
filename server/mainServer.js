@@ -15,6 +15,8 @@
         Meteor.methods({
             'addKeyword': function(email, keyword) {
                 //returns true if the keyword given in the form matches something in the collection
+                // Display a success toast, with a title
+
                 existingKeyword = KeywordCollection.findOne({
                     keyword: keyword
                 });
