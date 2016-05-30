@@ -24,6 +24,8 @@ if (Meteor.isClient) {
             //clear out the form box and false to stop an unnecessary refresh
             event.target.email.value = "";
             event.target.keyword.value = "";
+            // toastr.success("thanks!", "your email was successfully added to our database!");
+
             return false;
         },
 
@@ -57,3 +59,15 @@ if (Meteor.isClient) {
     });
 
 }
+
+Router.route('/about', {
+    name: 'about',
+    template: 'about'
+});
+Router.route('/', {
+    name: 'home',
+    template: 'home'
+});
+Router.configure({
+    layoutTemplate: 'main'
+});

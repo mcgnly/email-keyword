@@ -1,42 +1,4 @@
-<head>
-    <!--  <link href="static/css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="static/css/my-css.css" rel="stylesheet" media="screen">
-    <script src="static/js/jquery.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <title>AFP Alert</title>
-</head>
 
-<body>
-   
-        <br>
-        <br>
-        <div class="text-center">
-            <div class="jumbotron">
-                                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                   
-                    <h1 class="stroke">test Alert</h1>
-                    <header class="email-input">
-                        <h3>Enter your email here:</h3>
-                        <!-- email input box -->
-                        <form class = "new-email">
-                            <input type="text" name ="email" placeholder="email@something.com">
-                            <input type="text" name ="keyword" placeholder="your city">
-                            <input type="submit" value = "Submit">
-                        </form>
-                    </header>
-                
-            </div>
-         
-       </div>
-        <!-- <button class ="twitterChecker">check twitter </button> -->
-  
-</body>
 
 <template name="keywordTemplate">
     <li class="{{#if checked}}checked{{/if}}"> <!-- this line is for the strikethrough in the css -->
@@ -47,4 +9,66 @@
     </li>
 </template>
 
+<template name="home">
+    {{> realThing}}
+    <!-- <button class ="twitterChecker">check twitter </button> -->
+</template>
 
+<template name="about">
+    <div class ="container">
+    <div class = "col-md-10">
+    <h2>About this project</h2>
+    <p><a href="https://en.wikipedia.org/wiki/Amanda_Palmer" class="text-info">Amanda Palmer</a> 
+        is an American musician who has a tendency to give free informal concerts
+        when she is on tour. To avoid missing out on one, you should read <a href="https://twitter.com/amandapalmer" class="text-info">her Twitter</a>. The next best thing though, is this website. Sign up for email alerts with the name of your city, and every time she mentions it on her Twitter, you will get an email with the text of the tweet. With any luck, you'll never miss a show again!</p>
+
+    <p>This is a project by Katie McGinley, who wanted to make a website, and didn't really want to keep up with Twitter.</p>
+
+    <p>Keeping this website online and running costs about EUR150/year, and ads are kind of a gross way to fund anything. In the spirit of <a href="http://amandapalmer.net/theartofasking/" class="text-info">"The Art of Asking"</a>, this is the digital hat. I appreciate any and all donuts you choose to give. Thank you. </p>
+    </div>
+    </div>
+</template>
+
+<template name="main">
+   
+    
+    {{> yield}}
+    <hr />
+    {{> navigation}}
+    <p>Copyright &copy; AFPlanner, 2016.</p>
+</template>
+
+<template name="navigation">
+    <ul>
+        <li><a href="{{pathFor route='home'}}">Home</a></li>
+        <li><a href="{{pathFor route='about'}}">About</a></li>
+    </ul>
+</template>
+
+<template name="realThing">
+        <br>
+        <br>
+        <div class="text-center">
+            <div class="jumbotron">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                   
+                    <h1 class="stroke">test Alert</h1>
+                    <header class="email-input">
+                        <h3>Enter your email address and city here:</h3>
+                        <!-- email input box -->
+                        <form class = "new-email">
+                            <input type="text" name ="email" placeholder="email@something.com">
+                            <input type="text" name ="keyword" placeholder="your city">
+                            <input type="submit" value = "Submit">
+                        </form>
+                    </header>
+                
+            </div>
+         
+        </div>
+</template>
