@@ -3,3 +3,4 @@
 api_keys.*
 settings*
 envVars.*
+node_modules/*

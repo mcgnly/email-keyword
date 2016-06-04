@@ -18,13 +18,13 @@
     <div class ="container">
     <div class = "col-md-10">
     <h2>About this project</h2>
-    <p><a href="https://en.wikipedia.org/wiki/Amanda_Palmer" class="text-info">Amanda Palmer</a> 
+    <p><a href="https://en.wikipedia.org/wiki/Amanda_Palmer" class="text-primary">Amanda Palmer</a> 
         is an American musician who has a tendency to give free informal concerts
-        when she is on tour. To avoid missing out on one, you should read <a href="https://twitter.com/amandapalmer" class="text-info">her Twitter</a>. The next best thing though, is this website. Sign up for email alerts with the name of your city, and every time she mentions it on her Twitter, you will get an email with the text of the tweet. With any luck, you'll never miss a show again!</p>
+        when she is on tour. To avoid missing out on one, you should read <a href="https://twitter.com/amandapalmer" class="text-primary">her Twitter</a>. The next best thing though, is this website. Sign up for email alerts with the name of your city, and every time she mentions it on her Twitter, you will get an email with the text of the tweet. With any luck, you'll never miss a show again!</p>
 
     <p>This is a project by Katie McGinley, who wanted to make a website, and didn't really want to keep up with Twitter.</p>
 
-    <p>Keeping this website online and running costs about EUR150/year, and ads are kind of a gross way to fund anything. In the spirit of <a href="http://amandapalmer.net/theartofasking/" class="text-info">"The Art of Asking"</a>, this is the digital hat. I appreciate any and all donuts you choose to give. Thank you. </p>
+    <p>Keeping this website online and running costs about EUR150/year, and ads are kind of a gross way to fund anything. In the spirit of <a href="http://amandapalmer.net/theartofasking/" class="text-primary">"The Art of Asking"</a>, this is the digital hat. I appreciate any and all donuts you choose to give. Thank you. </p>
     </div>
     </div>
 </template>
@@ -35,14 +35,14 @@
     {{> yield}}
     <hr />
     {{> navigation}}
-    <p>Copyright &copy; AFPlanner, 2016.</p>
+    <p class ="footerLine">Copyright &copy; AFPlanner, 2016.</p>
 </template>
 
 <template name="navigation">
-    <ul>
+    <ol class="breadcrumb">
         <li><a href="{{pathFor route='home'}}">Home</a></li>
         <li><a href="{{pathFor route='about'}}">About</a></li>
-    </ul>
+    </ol>
 </template>
 
 <template name="realThing">
