@@ -35,3 +35,6 @@ percolate:synced-cron
 
 iron:router
 pcel:toastr
+gfk:mailgun-api
+practicalmeteor:mocha
+xolvio:cleaner
