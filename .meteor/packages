@@ -32,3 +32,9 @@ twbs:bootstrap
 standard-minifier-css
 standard-minifier-js
 percolate:synced-cron
+
+iron:router
+pcel:toastr
+gfk:mailgun-api
+practicalmeteor:mocha
+xolvio:cleaner
