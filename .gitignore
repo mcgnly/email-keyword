@@ -5,3 +5,6 @@ settings*
 envVars.*
 node_modules*
 ignoreme*
+npm-container/*
+!npm-container/index.js
+!npm-container/package.js
