@@ -25,15 +25,15 @@ if (Meteor.isServer) {
             KeywordCollection.remove(id);
         },
 
-        'sendEmail': function(email) {
+        'sendEmail': function(email, keyword) {
             // check([to, from, subject, text], [String]);
             Email.send({
                 to: email,
                 mail_from: 'postmaster@.mcgnly.com',
                 // sender: 'postmaster@mcgnly.com',
                 from: Meteor.settings.private.mailgun.from,
-                subject: 'Testing testing',
-                text: 'did it work?'
+                subject: 'AFP Alert',
+                text: 'You have received this email because you were looking for the keyword ' + keyword
             });
             console.log("email sent")
         },
@@ -94,7 +94,7 @@ if (Meteor.isServer) {
                 if (twitterTrigger) {
                     console.log("twittertrigger", twitterTrigger);
                     _.each(twitterTrigger.emails, function(email) {
-                        Meteor.call('sendEmail', email);
+                        Meteor.call('sendEmail', email, twitterTrigger);
                     });
                 }
             }
@@ -142,16 +142,33 @@ if (Meteor.isServer) {
                 },
                 function(error, result) {
                     if (!error) {
-                        console.log(result.content);
-                        // Meteor.call('deleteUnsubscribes', email);
+                        let unsubscribes = JSON.parse(result.content).items
+
+                        //create a collection of the unsubscribed email addresses
+                        for (x in unsubscribes) {
+                            UnsubscribersCollection.insert({
+                                email: x.address,
+                                createdAt: new Date()
+                            })
+                        }
+                        // console.log(JSON.parse(result.content).items);
+                        Meteor.call('deleteUnsubscribes', email);
                     } else {
                         console.log(error);
                     }
                 });
         },
 
-        'deleteUnsubscribes': function() {
-
+        'deleteUnsubscribes': function(email) {
+            //for each keyword,
+            //keyword.find({ email: "whatever is returned from the unsubscribe list" }, ...);
+            KeywordCollection.update({}, {
+                $pull: {
+                    email: email
+                }
+            }, {
+                multi: true
+            });
         }
     });
 
