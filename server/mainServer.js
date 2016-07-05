@@ -25,17 +25,26 @@ if (Meteor.isServer) {
             KeywordCollection.remove(id);
         },
 
-        'sendEmail': function(email, keyword) {
-            // check([to, from, subject, text], [String]);
-            Email.send({
-                to: email,
-                mail_from: 'postmaster@.mcgnly.com',
-                // sender: 'postmaster@mcgnly.com',
-                from: Meteor.settings.private.mailgun.from,
-                subject: 'AFP Alert',
-                text: 'You have received this email because you were looking for the keyword ' + keyword
+        'sendEmail': function(email, keyword, tweetId) {
+            //first process the unsubscribes so nobody gets bothered, and async blocked so nobody gets emailed unless I can check unsubscrubes first
+            checkUnsubscribes().then(() => {
+                // 
+                //eventually I'd like to embed the tweet itself in the email
+                // let embedCall = HTTP.call("GET", "https://publish.twitter.com/oembed?url=https%3A%2F%2Ftwitter.com%2Famandapalmer%2Fstatus%2F" + tweetId);
+                // let embedText = embedCall.html;
+                // consolelog(embedText);
+                // GET
+                //
+                Email.send({
+                    to: email,
+                    mail_from: 'postmaster@.mcgnly.com',
+                    // sender: 'postmaster@mcgnly.com',
+                    from: Meteor.settings.private.mailgun.from,
+                    subject: 'AFP Alert',
+                    text: 'You have received this email because you were looking for the keyword ' + keyword.keyword + ". "
+                });
+                console.log('sent a triggered email');
             });
-            console.log("email sent")
         },
 
         'twitterChecker': function() {
@@ -52,10 +61,9 @@ if (Meteor.isServer) {
                 include_entities: false,
                 include_rts: false
             })
-
-            .catch(function(err) {
-                console.log('caught error', err.stack)
-            })
+                .catch(function(err) {
+                    console.log('caught error', err.stack)
+                })
                 .then(Meteor.bindEnvironment(function(result) {
                     // `result` is an Object with keys "data" and "resp".
                     // `data` and `resp` are the same objects as the ones passed
@@ -64,11 +72,10 @@ if (Meteor.isServer) {
                     // for details.
                     if (result.data.length > 0) {
                         for (d in result.data) {
-
                             var tweet = result.data[d].text;
-
+                            var tweetId = result.data[d].id;
                             console.log(tweet);
-                            Meteor.call('tweetParser', tweet)
+                            Meteor.call('tweetParser', tweet, tweetId)
                         }
 
                         LastTweetsCollection.insert({
@@ -79,11 +86,11 @@ if (Meteor.isServer) {
                         console.log("nothing new to report");
                     }
                 }))
+
         },
 
-        'tweetParser': function(tweet) {
+        'tweetParser': function(tweet, tweetId) {
             var splitTweet = tweet.split(" ");
-            // console.log(splitTweet);
 
             for (i = 0; i < splitTweet.length; i++) {
                 twitterTrigger = KeywordCollection.findOne({
@@ -92,85 +99,112 @@ if (Meteor.isServer) {
                 //this returns an object which will be true if it exists
                 //if it DOES exist already...
                 if (twitterTrigger) {
-                    console.log("twittertrigger", twitterTrigger);
                     _.each(twitterTrigger.emails, function(email) {
-                        Meteor.call('sendEmail', email, twitterTrigger);
+                        Meteor.call('sendEmail', email, twitterTrigger, tweetId);
                     });
                 }
             }
+        },
+
+        'deleteUnsubscribes': function(email) {
+            //for each keyword,
+            console.log("this email should be deleted", email);
+            KeywordCollection.update({}, {
+                $pull: {
+                    emails: email
+                }
+            }, {
+                multi: true
+            });
         },
 
         'addKeyword': function(email, keyword) {
             if (!(email || keyword)) {
                 throw new Error('Provide an email and a keyword');
             } else {
+                console.log("email", email);
+                console.log("keyword", keyword);
 
-                //returns true if the keyword given in the form matches something in the collection
-                existingKeyword = KeywordCollection.findOne({
-                    keyword: keyword
-                });
-                //this returns an object which will be true if it exists
-                //if it DOES exist already...
-                if (existingKeyword) { //returns true...
-                    //console.log("this keyword exists already in: "+existingKeyword);
-                    //check that the new email isn't already in the list of existing emails
-                    if (!_.find(existingKeyword.emails, function(existingEmail) {
-                        return existingEmail === email;
-                    })) {
-                        //and puch the new email into the existing list
-                        KeywordCollection.update(existingKeyword._id, {
-                            $push: {
-                                emails: email
-                            }
-                        });
-                    }
-                }
-                //if the keyword doesn't exist already...
-                else {
-                    //add an entry in the collection
-                    KeywordCollection.insert({
-                        emails: [email],
+                // async block the addition of the email address to the database until I'm sure a confirmation email has been sent
+                confirmEmail(email).then(() => {
+                    console.log('added new keyword');
+                    //returns true if the keyword given in the form matches something in the collection
+                    existingKeyword = KeywordCollection.findOne({
                         keyword: keyword
                     });
-                }
+                    //this returns an object which will be true if it exists
+                    //if it DOES exist already...
+                    if (existingKeyword) { //returns true...
+                        //check that the new email isn't already in the list of existing emails
+                        if (!_.find(existingKeyword.emails, function(existingEmail) {
+                            return existingEmail === email;
+                        })) {
+                            //and puch the new email into the existing list
+                            KeywordCollection.update(existingKeyword._id, {
+                                $push: {
+                                    emails: email
+                                }
+                            });
+                        }
+                    }
+                    //if the keyword doesn't exist already...
+                    else {
+                        //add an entry in the collection
+                        KeywordCollection.insert({
+                            emails: [email],
+                            keyword: keyword
+                        });
+                    }
+                });
             }
-        },
 
-        'checkUnsubscribes': function() {
+        }
+    });
+
+    let checkUnsubscribes = () => {
+        return new Promise((resolve, reject) => {
             HTTP.call("GET", "https://api.mailgun.net/v3/mcgnly.com/unsubscribes", {
                     auth: 'api:' + Meteor.settings.private.mailgun.MAILGUN_KEY
                 },
                 function(error, result) {
                     if (!error) {
-                        let unsubscribes = JSON.parse(result.content).items
-
-                        //create a collection of the unsubscribed email addresses
-                        for (x in unsubscribes) {
+                        let unsubscribes = JSON.parse(result.content).items; //this is an array
+                        let newUnsubscribes = unsubscribes
+                            //create a collection of the unsubscribed email addresses
+                        unsubscribes.forEach((x) => {
                             UnsubscribersCollection.insert({
                                 email: x.address,
                                 createdAt: new Date()
                             })
-                        }
-                        // console.log(JSON.parse(result.content).items);
-                        Meteor.call('deleteUnsubscribes', email);
+                            Meteor.call('deleteUnsubscribes', x.address);
+                            HTTP.call("DELETE", "https://api.mailgun.net/v3/mcgnly.com/unsubscribes/" + x.address, {
+                                auth: 'api:' + Meteor.settings.private.mailgun.MAILGUN_KEY
+                            });
+                        });
+                        resolve();
                     } else {
                         console.log(error);
+                        reject();
                     }
                 });
-        },
+        });
+    }
 
-        'deleteUnsubscribes': function(email) {
-            //for each keyword,
-            //keyword.find({ email: "whatever is returned from the unsubscribe list" }, ...);
-            KeywordCollection.update({}, {
-                $pull: {
-                    email: email
-                }
-            }, {
-                multi: true
+    let confirmEmail = (email) => {
+        return new Promise((resolve, reject) => {
+            console.log('sent confirmation email');
+            Email.send({
+                to: email,
+                mail_from: 'postmaster@.mcgnly.com',
+                // sender: 'postmaster@mcgnly.com',
+                from: Meteor.settings.private.mailgun.from,
+                subject: 'AFP Alert signup confirmation',
+                text: 'You have received this email because you were signed up for the AFP-Alert website, alerting you when Amanda Palmer tweets about your chosen keyword. If you would no longer like to recieve these alerts, please use the unsubscribe link at the bottom of each email (including this one), and you will be removed from our list of subscribers. Thanks, and have a great day!'
             });
-        }
-    });
+            resolve();
+        });
+    }
+
 
     Meteor.startup(function() {
         process.env.MAIL_URL = Meteor.settings.private.MAIL_URL;
