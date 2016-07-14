@@ -1,105 +1,95 @@
-
-
 <template name="keywordTemplate">
-   
 </template>
-
 <template name="home">
     {{> realThing}}
 </template>
 
-<template name="about">
-    <div class ="container">
-    <div class = "col-md-10">
-    <h2>About this project</h2>
-    <p><a href="https://en.wikipedia.org/wiki/Amanda_Palmer" class="text-primary">Amanda Palmer</a> 
-        is an American musician who has a tendency to give free informal concerts
-        when she is on tour. To avoid missing out on one, you should read <a href="https://twitter.com/amandapalmer" class="text-primary">her Twitter</a>. The next best thing though, is this website. Sign up for email alerts with the name of your city, and every time she mentions it on her Twitter, you will get an email with the text of the tweet. With any luck, you'll never miss a show again!</p>
+<template name="realThing">
+    <div class="text-center">
+        <div class="jumbotron">
 
-    <p>This is a project by Katie McGinley, who wanted to make a website, and didn't really want to keep up with Twitter. If you're curious about how the project was made, or have more projects that are in need of a developer, feel free to get in touch- I'm reachable at katie@mcgnly.com. If you would like to see more of my work, including the source code for this project, check out my <a href="https://www.github.com/mcgnly" class="text-primary">github</a> or my <a href="http://www.mcgnly.com" class="text-primary">website</a> (which currently still is my github...someday I'll make a proper one of my own.).</p>
+            <h1>AFP Alert</h1>
+            <header class="email-input">
+                <h3>Enter your email address and city here:</h3>
+                <!-- email input box -->
+                <form class="new-email">
+                    <input type="text" name="email" placeholder="email@something.com">
+                    <input type="text" name="keyword" placeholder="your city">
+                    <input type="submit" value="Submit">
+                </form>
+            </header>
+            <!-- <button class="twitterChecker">check twitter </button> -->
 
-    </div>
+           <br>
+        <a class="twitter-timeline" data-width="400" data-height="100" href="https://twitter.com/amandapalmer">Latest Tweets by Amanda Palmer</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
     </div>
 </template>
 
+<template name="about">
+    <div class="container">
+        <div class="col-md-10">
+            <h2>About this project</h2>
+            <p><a href="https://en.wikipedia.org/wiki/Amanda_Palmer" class="text-primary">Amanda Palmer</a> is an American musician who has a tendency to give free informal concerts when she is on tour. To avoid missing out on one, you should read <a href="https://twitter.com/amandapalmer" class="text-primary">her Twitter</a>. The next best thing though, is this website. Sign up for email alerts with the name of your city, and every time she mentions it on her Twitter, you will get an email with the text of the tweet. With any luck, you'll never miss a show again!</p>
+            <p>This is a project by Katie McGinley, who wanted to make a website, and didn't really want to keep up with Twitter. If you're curious about how the project was made, or have more projects that are in need of a developer, feel free to get in touch- I'm reachable at katie@mcgnly.com. If you would like to see more of my work, including the source code for this project, check out my <a href="https://www.github.com/mcgnly" class="text-primary">github</a> or my <a href="http://www.mcgnly.com" class="text-primary">website</a> (which currently still is my github...someday I'll make a proper one of my own.).</p>
+        </div>
+    </div>
+</template>
 
 <template name="donate">
-    <div class ="container">
-    <div class = "col-md-10">
-    <h2>Support this project</h2>
-
-    <p>Keeping this website online and running costs about EUR150/year, and ads are kind of a gross way to fund anything. In the spirit of <a href="http://amandapalmer.net/theartofasking/" class="text-primary">"The Art of Asking"</a>, this is the digital hat. I appreciate any and all donuts you choose to give. Thank you. </p>
-
-<div class="container">
-  <div class="row">
-    <div class="col-sm-4">
-
-<script id='fbk6lho'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//button.flattr.com/view/?fid=voxj1p&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=62;f.width=55;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbk6lho');</script>
-    </div>
-  
-    <div class="col-sm-4">
-  <img src= '/bitcoin-qr.png' alt="donate bitcoin" style="width:150px;height:150px;">
-    </div>
-
-    <div class="col-sm-4">
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="NXLGWLXNVM3C2">
-<input type="image" src="https://github.com/mcgnly/show-alert-ninja/blob/feature/email-and-unsubscribe/public/hat.png?raw=true" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-<input type="text" name="amount" value="" />
-</form>
-    </div>
-  </div>
-</div>
-
-
-    </div>
+    <div class="container">
+        <div class="col-md-10">
+            <h2>Support this project</h2>
+            <p>Keeping this website online and running costs about EUR150/year, and ads are kind of a gross way to fund anything. In the spirit of <a href="http://amandapalmer.net/theartofasking/" class="text-primary">"The Art of Asking"</a>, this is the digital hat. I appreciate any and all donuts you choose to give. Thank you. </p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="centerBlock">
+                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                <input type="hidden" name="cmd" value="_s-xclick">
+                                <input type="hidden" name="hosted_button_id" value="NXLGWLXNVM3C2">
+                                <input type="image" src="https://github.com/mcgnly/show-alert-ninja/blob/feature/email-and-unsubscribe/public/hat.png?raw=true" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                                <!-- <input type="text" name="amount" value="" > -->
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="centerBlock">
+                            <script id='fbk6lho'>
+                            (function(i) {
+                                var f, s = document.getElementById(i);
+                                f = document.createElement('iframe');
+                                f.src = '//button.flattr.com/view/?fid=voxj1p&url=' + encodeURIComponent(document.URL);
+                                f.title = 'Flattr';
+                                f.height = 62;
+                                f.width = 55;
+                                f.style.borderWidth = 0;
+                                s.parentNode.insertBefore(f, s);
+                            })('fbk6lho');
+                            </script>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="centerBlock">
+                            <img src='/bitcoin-qr.png' alt="donate bitcoin" style="width:100px;height:100px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <template name="main">
-   
-    
     {{> yield}}
-    <hr />
-    {{> navigation}}
-    <p class ="footerLine">Copyright &copy; AFP Alert, 2016.</p>
+    <hr /> {{> navigation}}
+    <p class="footerLine">Copyright &copy; AFP Alert, 2016.</p>
 </template>
-
 <template name="navigation">
     <ol class="breadcrumb">
         <li><a href="{{pathFor route='home'}}">Home</a></li>
         <li><a href="{{pathFor route='about'}}">About</a></li>
         <li><a href="{{pathFor route='donate'}}">Support</a></li>
     </ol>
-</template>
-
-<template name="realThing">
-        <br>
-        <br>
-        <div class="text-center">
-            <div class="jumbotron">
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                   
-                    <h1 class="stroke">AFP Alert</h1>
-                    <header class="email-input">
-                        <h3>Enter your email address and city here:</h3>
-                        <!-- email input box -->
-                        <form class = "new-email">
-                            <input type="text" name ="email" placeholder="email@something.com">
-                            <input type="text" name ="keyword" placeholder="your city">
-                            <input type="submit" value = "Submit">
-                        </form>
-                    </header>
-    <button class ="twitterChecker">check twitter </button>
-                
-            </div>
-         
-        </div>
 </template>
