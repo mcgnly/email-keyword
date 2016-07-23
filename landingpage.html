@@ -6,8 +6,8 @@
 
 <template name="realThing">
     <div class="text-center">
-        <div class="jumbotron">
-
+        <div class="jumbotron main-banner">
+            <!-- <div id=> -->
             <h1>AFP Alert</h1>
             <header class="email-input">
                 <h3>Enter your email address and city here:</h3>
@@ -22,6 +22,7 @@
 
            <br>
         <a class="twitter-timeline" data-width="400" data-height="100" href="https://twitter.com/amandapalmer">Latest Tweets by Amanda Palmer</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <!-- </div> -->
         </div>
     </div>
 </template>
@@ -37,38 +38,23 @@
 </template>
 
 <template name="donate">
-    <div class="container">
-        <div class="col-md-10">
-            <h2>Support this project</h2>
-            <p>Keeping this website online and running costs about EUR150/year, and ads are kind of a gross way to fund anything. In the spirit of <a href="http://amandapalmer.net/theartofasking/" class="text-primary">"The Art of Asking"</a>, this is the digital hat. I appreciate any and all donuts you choose to give. Thank you. </p>
+        <!-- <div class="col-md-12"> -->
+    <div class="jumbotron donate-banner">
+        <div class="container">
             <br>
             <br>
             <br>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="centerBlock">
-                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="G27QW8KF4ENBE">
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>
-
-
-
-
-
-                           <!--  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                <input type="hidden" name="cmd" value="_s-xclick">
-                                <input type="hidden" name="hosted_button_id" value="NXLGWLXNVM3C2">
-                                <input type="image" src="https://github.com/mcgnly/show-alert-ninja/blob/feature/email-and-unsubscribe/public/hat.png?raw=true" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-                             
-                            </form> -->
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
+                <h2>Support this project</h2>
+                <p>Keeping this website online and running costs about EUR150/year, and ads are kind of a gross way to fund anything. In the spirit of <a href="http://amandapalmer.net/theartofasking/" class="book-text">"The Art of Asking"</a>, this is the digital hat. I appreciate any and all donuts you choose to give. Thank you. </p>
+        </div>    
+    </div> 
+            <!-- </div> -->
+            <br>
+            <br>
+            <br>
+            <div class="container text-center">
+                <!-- <div class="row"> -->
+                    <div class="col-md-4">
                         <div class="centerBlock">
                             <script id='fbk6lho'>
                             (function(i) {
@@ -84,15 +70,23 @@
                             </script>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-md-4">
+                        <div class="centerBlock">
+                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                <input type="hidden" name="cmd" value="_s-xclick">
+                                <input type="hidden" name="hosted_button_id" value="G27QW8KF4ENBE">
+                                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                                </form>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="centerBlock">
                             <img src='/bitcoin-qr.png' alt="donate bitcoin" style="width:100px;height:100px;">
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+        <!-- </div> -->
 </template>
 
 <template name="main">

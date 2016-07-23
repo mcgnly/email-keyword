@@ -25,7 +25,7 @@ if (Meteor.isServer) {
             KeywordCollection.remove(id);
         },
 
-        'sendEmail': function(email, keyword, tweetId) {
+        'sendEmail': function(email, keyword, tweet) {
             //first process the unsubscribes so nobody gets bothered, and async blocked so nobody gets emailed unless I can check unsubscrubes first
             checkUnsubscribes().then(() => {
                 // 
@@ -41,7 +41,8 @@ if (Meteor.isServer) {
                     // sender: 'postmaster@mcgnly.com',
                     from: Meteor.settings.private.mailgun.from,
                     subject: 'AFP Alert',
-                    text: 'You have received this email because you were looking for the keyword ' + keyword.keyword + ". "
+                    text: 'You have received this email because you were looking for the town ' + keyword.keyword + 
+                    ". The text of the tweet which triggered this email is: \n"+ tweet
                 });
                 console.log('sent a triggered email');
             });
@@ -90,17 +91,17 @@ if (Meteor.isServer) {
         },
 
         'tweetParser': function(tweet, tweetId) {
-            var splitTweet = tweet.split(" ");
+            var splitTweet = tweet.split(/[\s||.||!||\/]+/);
 
             for (i = 0; i < splitTweet.length; i++) {
                 twitterTrigger = KeywordCollection.findOne({
-                    keyword: splitTweet[i]
+                    keyword: splitTweet[i].toLowerCase()
                 });
                 //this returns an object which will be true if it exists
                 //if it DOES exist already...
                 if (twitterTrigger) {
                     _.each(twitterTrigger.emails, function(email) {
-                        Meteor.call('sendEmail', email, twitterTrigger, tweetId);
+                        Meteor.call('sendEmail', email, twitterTrigger, tweet);
                     });
                 }
             }
@@ -152,7 +153,7 @@ if (Meteor.isServer) {
                         //add an entry in the collection
                         KeywordCollection.insert({
                             emails: [email],
-                            keyword: keyword
+                            keyword: keyword.toLowerCase()
                         });
                     }
                 });
@@ -199,7 +200,7 @@ if (Meteor.isServer) {
                 // sender: 'postmaster@mcgnly.com',
                 from: Meteor.settings.private.mailgun.from,
                 subject: 'AFP Alert signup confirmation',
-                text: 'You have received this email because you were signed up for the AFP-Alert website, alerting you when Amanda Palmer tweets about your chosen keyword. If you would no longer like to recieve these alerts, please use the unsubscribe link at the bottom of each email (including this one), and you will be removed from our list of subscribers. Thanks, and have a great day!'
+                text: 'You have received this email because you were signed up for the AFP-Alert website, alerting you when Amanda Palmer tweets about your chosen city. If you would no longer like to recieve these alerts, please use the unsubscribe link at the bottom of each email (including this one), and you will be removed from our list of subscribers. Thanks, and have a great day!'
             });
             resolve();
         });
