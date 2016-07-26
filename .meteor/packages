@@ -39,8 +39,8 @@ gfk:mailgun-api
 practicalmeteor:mocha
 xolvio:cleaner
 
-
-npm-container
-
 chrismbeckett:toastr
 
+
+
+npm-container

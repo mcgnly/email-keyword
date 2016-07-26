@@ -1,0 +1,1 @@
+if meteor is bitching about npm-container not being recognized, just delete it out of the .meteor/package file and it'll put it back when you run it next
