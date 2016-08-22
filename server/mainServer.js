@@ -5,16 +5,16 @@ if (Meteor.isServer) {
     var Twit = Meteor.npmRequire("twit");
     // let twitSettings = Meteor.settings.private.twitter,
     T = new Twit({
-        consumer_key: Meteor.settings.private.twitter.CONSUMER_KEY,
-        consumer_secret: Meteor.settings.private.twitter.CONSUMER_SECRET,
-        access_token: Meteor.settings.private.twitter.ACCESS_TOKEN,
-        access_token_secret: Meteor.settings.private.twitter.ACCESS_TOKEN_SECRET
+        consumer_key: Meteor.settings.twitter.CONSUMER_KEY,
+        consumer_secret: Meteor.settings.twitter.CONSUMER_SECRET,
+        access_token: Meteor.settings.twitter.ACCESS_TOKEN,
+        access_token_secret: Meteor.settings.twitter.ACCESS_TOKEN_SECRET
     });
 
-    let mgSettings = Meteor.settings.private.mailgun;
+    let mgSettings = Meteor.settings.mailgun;
     mg = new Mailgun({
-        apiKey: Meteor.settings.private.mailgun.MAILGUN_KEY,
-        domain: Meteor.settings.private.mailgun.domain
+        apiKey: Meteor.settings.mailgun.MAILGUN_KEY,
+        domain: Meteor.settings.mailgun.domain
     })
 
     SyncedCron.start();
@@ -39,7 +39,7 @@ if (Meteor.isServer) {
                     to: email,
                     mail_from: 'postmaster@.mcgnly.com',
                     // sender: 'postmaster@mcgnly.com',
-                    from: Meteor.settings.private.mailgun.from,
+                    from: Meteor.settings.mailgun.from,
                     subject: 'AFP Alert',
                     text: 'You have received this email because you were looking for the town ' + keyword.keyword + 
                     ". The text of the tweet which triggered this email is: \n"+ tweet
@@ -165,7 +165,7 @@ if (Meteor.isServer) {
     let checkUnsubscribes = () => {
         return new Promise((resolve, reject) => {
             HTTP.call("GET", "https://api.mailgun.net/v3/mcgnly.com/unsubscribes", {
-                    auth: 'api:' + Meteor.settings.private.mailgun.MAILGUN_KEY
+                    auth: 'api:' + Meteor.settings.mailgun.MAILGUN_KEY
                 },
                 function(error, result) {
                     if (!error) {
@@ -179,7 +179,7 @@ if (Meteor.isServer) {
                             })
                             Meteor.call('deleteUnsubscribes', x.address);
                             HTTP.call("DELETE", "https://api.mailgun.net/v3/mcgnly.com/unsubscribes/" + x.address, {
-                                auth: 'api:' + Meteor.settings.private.mailgun.MAILGUN_KEY
+                                auth: 'api:' + Meteor.settings.mailgun.MAILGUN_KEY
                             });
                         });
                         resolve();
@@ -198,7 +198,7 @@ if (Meteor.isServer) {
                 to: email,
                 mail_from: 'postmaster@.mcgnly.com',
                 // sender: 'postmaster@mcgnly.com',
-                from: Meteor.settings.private.mailgun.from,
+                from: Meteor.settings.mailgun.from,
                 subject: 'AFP Alert signup confirmation',
                 text: 'You have received this email because you were signed up for the AFP-Alert website, alerting you when Amanda Palmer tweets about your chosen city. If you would no longer like to recieve these alerts, please use the unsubscribe link at the bottom of each email (including this one), and you will be removed from our list of subscribers. Thanks, and have a great day!'
             });
@@ -208,6 +208,6 @@ if (Meteor.isServer) {
 
 
     Meteor.startup(function() {
-        process.env.MAIL_URL = Meteor.settings.private.MAIL_URL;
+        process.env.MAIL_URL = Meteor.settings.MAIL_URL;
     });
 }

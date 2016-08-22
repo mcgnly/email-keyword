@@ -1,0 +1,17 @@
+{
+  "name": "email-keyword",
+  "version": "1.0.0",
+  "description": "twitter reader with email alerts based on keywords",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "twit": "^2.2.4"
+  }
+}
