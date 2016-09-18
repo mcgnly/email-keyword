@@ -17,6 +17,8 @@ if (Meteor.isServer) {
         domain: Meteor.settings.mailgun.domain
     })
 
+    console.log("mongo living at ", process.env.MONGO_URL)
+
     SyncedCron.start();
 
     Meteor.methods({
@@ -131,7 +133,7 @@ if (Meteor.isServer) {
                     console.log('added new keyword');
                     //returns true if the keyword given in the form matches something in the collection
                     existingKeyword = KeywordCollection.findOne({
-                        keyword: keyword
+                        keyword: keyword.toLowerCase()
                     });
                     //this returns an object which will be true if it exists
                     //if it DOES exist already...
